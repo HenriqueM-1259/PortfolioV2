@@ -92,7 +92,9 @@
         .Line{
             border-top: solid;
             border-right: solid;
-            height: 100%;
+            height: 200px;
+            
+            border-width: 4px;
             padding: 20px;
         }
     </style>
@@ -107,7 +109,7 @@
                 <i class="fa-solid fa-xmark"></i>
         </div>
         <div class="opcoesCabecalho">
-            <i class="fa-solid fa-plus"></i>
+            <i onclick="AdicionarAba();" class="fa-solid fa-plus"></i>
            
 
             </div>
@@ -140,8 +142,26 @@
             </div>
     </section>
     <script>
+         var PaginaNumero = 0
+        function AdicionarAba(){debugger
+                cabecalho = document.querySelector('.Cabecalho')
+                PaginaNumero++;
+                if(PaginaNumero == 1){
+                    var addbuton = cabecalho.childNodes[3].innerHTML   
+                    cabecalho.childNodes[3].innerHTML = "" 
+                    
+                    cabecalho.innerHTML = cabecalho.innerHTML +"<div class='itemCabecalhoSelected'><div><i class='fa-solid fa-house'></i><label>Sobre</label></div><i class='fa-solid fa-xmark'></i></div> <div class='opcoesCabecalho'>"+addbuton+"</div>" 
+                    
+                }else if(PaginaNumero == 2){
+
+                }else if(PaginaNumero == 3){
+
+                }                      
+            }
        window.addEventListener('load',function(){
+           
             var service = new Service(document.getElementById('Canvas'));
+            
             function LoopService() {
                 service.LimpaTela()
                 service.Draw()
@@ -234,7 +254,7 @@
             Gradiente = ""
             
             CarregarLuz(){
-                debugger
+                
                 this.Gradiente = this.context.createLinearGradient(this.vertices.verticeOne.x,this.vertices.verticeOne.y,this.vertices.verticeTwo.x,this.vertices.verticethree.y);
                 this.Gradiente.addColorStop(0, 'rgba(217, 217, 217, 0.31)');
                 this.Gradiente.addColorStop(1, 'rgba(217, 217, 217, 0)');
@@ -265,7 +285,7 @@
             ApagaLuz(){
                     const randomNumber = Math.floor(Math.random() * 50)
                     if(randomNumber == 25){
-                        debugger
+                        
                         this.Gradiente = "#121212"
                     }else if(randomNumber == 0){
                         this.CarregarLuz();
