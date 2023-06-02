@@ -222,7 +222,13 @@
             }
 
            Update(){
-
+            this.posicaoEnd.x += this.direcao
+            if(this.posicaoEnd.x >= 305.1){
+                this.direcao = -0.1;
+            }else if(this.posicaoEnd.x <= 295.1) {
+                this.direcao = 0.1;
+            }  
+            
            }
         }
 
@@ -252,11 +258,12 @@
             }
             }
             Gradiente = ""
-            
+            direcao = 0.1
             CarregarLuz(){
                 
-                this.Gradiente = this.context.createLinearGradient(this.vertices.verticeOne.x,this.vertices.verticeOne.y,this.vertices.verticeTwo.x,this.vertices.verticethree.y);
-                this.Gradiente.addColorStop(0, 'rgba(217, 217, 217, 0.31)');
+                this.Gradiente = this.context.createLinearGradient(
+                    10,10,10,300);
+                this.Gradiente.addColorStop(0, 'rgba(217, 217, 217, 0.20)');
                 this.Gradiente.addColorStop(1, 'rgba(217, 217, 217, 0)');
             }
             Draw(){
@@ -280,6 +287,19 @@
             }
             Update(){
                 this.ApagaLuz()
+                this.vertices.verticeOne.x += this.direcao
+                this.vertices.verticeOne.y -= this.direcao
+
+                this.vertices.verticefour.x += this.direcao
+                this.vertices.verticefour.y += this.direcao
+
+                this.vertices.verticeTwo.x += this.direcao
+                this.vertices.verticethree.x += this.direcao
+                if(this.vertices.verticeOne.x >= 325.1){
+                    this.direcao = - 0.1
+                }else if(this.vertices.verticeOne.x <= 315.1){
+                    this.direcao = 0.1
+                }
             }
 
             ApagaLuz(){
