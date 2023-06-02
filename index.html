@@ -102,7 +102,7 @@
     </section>
     <section class="Corpo">
             <div class="QuadradoSeparado">
-                <canvas id="Lamp" width="400px" height="400px">
+                <canvas id="Lamp" width="500px" height="400px">
                         
                 </canvas>
             </div>
@@ -129,21 +129,32 @@
     <script>
        window.addEventListener('load',function(){
         console.log("pagina Carregou")
+        
         var iniciaLinha = new Line()
         var iniciaLuz = new Luz()
+        var renderer = new ImageRenderer("Lamp", "./IconJs.png");
         iniciaLinha.Load(document.getElementById('Lamp'))
         iniciaLuz.Load(document.getElementById('Lamp'))
-        var iniciaPrograma = new Program().Inicia(iniciaLinha,iniciaLuz)
+        
+        setInterval(() => {
+
+            var iniciaPrograma = new Program().Inicia(document.getElementById('Lamp'),iniciaLinha,iniciaLuz,renderer)
+               }, 60);
+        
        })
 
        class Program {
-            Inicia(linha,Luz){
+            Inicia(canva,linha,Luz,renderer){
+                
+                var context = canva.getContext('2d')
+                context.clearRect(0,0,500,400);
                 linha.draw()
+                
                 Luz.draw()
                 Luz.update()
-               setTimeout(() => {
-                this.Inicia()
-               }, 60);
+                renderer.SomeIcon(Luz.apaga);
+                
+                
             }
        }
        class Line{
@@ -182,37 +193,80 @@
             }
        }
        class Luz{
-        canvas = null
+        
+                canvas = null
                 context = null
-                color = 'white'
-                 vertex1 = { x: 300, y: 120 };
-                 vertex2 = { x: 200, y: 240 };
-                 vertex3 = { x: 400, y: 240 };
-
+                color = '#121212'
+                 vertex1 = { x: 320, y: 130 };
+                 vertex2 = { x: 0, y: 540 };
+                 vertex3 = { x: 600, y: 540 };
+                 vertex4 = { x: 280, y: 130 };
+                apaga = false;
             Load(canvas){
                this.canvas = canvas;
                this.context = this.canvas.getContext('2d')
-               
+               this.addCor()
             }
             draw(){
                 if(this.context){
-                    var gradient = this.context.createLinearGradient(this.vertex1.x, this.vertex1.y, 300, this.vertex3.y);
-                    gradient.addColorStop(1, 'rgba(217, 217, 217, 0)');
-                    gradient.addColorStop(0, 'rgba(217, 217, 217, 0.31)');
+                    
                     this.context.beginPath()
                     this.context.moveTo(this.vertex1.x, this.vertex1.y)
+                    this.context.lineTo(this.vertex4.x, this.vertex4.y);
                     this.context.lineTo(this.vertex2.x, this.vertex2.y);
                     this.context.lineTo(this.vertex3.x, this.vertex3.y);
                     this.context.closePath();
-                    this.context.fillStyle = gradient;
+                    this.context.fillStyle = this.color;
                     this.context.fill();
                 }
                 
             }
             update(){
-                    
+                this.apagaLuz()
+            }
+            addCor(){
+                this.apaga = false;
+                    this.color = this.context.createLinearGradient(0,0,0,300);
+                    this.color.addColorStop(1, 'rgba(217, 217, 217, 0)');
+                    this.color.addColorStop(0, 'rgba(217, 217, 217, 0.31)');
+            }
+            apagaLuz(){
+                var numeroAleatorio = Math.floor(Math.random() * 20);
+                    if(numeroAleatorio == 10){
+                        this.apaga = true;
+                        this.color = '#121212'
+                    }else{
+                      this.addCor()  
+                    }
+            }
+            moveto(){
+        
             }
        }
+       class ImageRenderer {
+      constructor(canvasId, imagePath) {
+        this.canvas = document.getElementById(canvasId);
+        this.ctx = this.canvas.getContext("2d");
+        this.image = new Image();
+        this.image.src = imagePath;
+        this.image.height = "100px"
+        this.image.onload = this.render.bind(this);
+      }
+
+      render() {
+        this.ctx.drawImage(this.image, 275, 200);
+      }
+      SomeIcon(some){
+                if(some){
+                    
+                    this.image.src = "" 
+                }else{
+                    this.image.src = "./IconJs.png" 
+                }
+            }
+    }
+
+    
     </script>
 </body>
 </html>
