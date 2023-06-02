@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Portfolio 2023</title>
+    <style>
+        *{
+           padding: 0;
+           margin: 0;
+        }
+        body{
+            background-color: #121212;
+            display: flex;
+            flex-direction: column;
+        }
+        .Cabecalho{
+                background-color: #272727;
+                display: flex;
+                flex-direction: row;
+        }
+        .itemCabecalhoSelected{
+            margin-top: 10px;
+            margin-left: 10px;
+            margin-right: 10px;
+            background-color: #121212;
+            width: 150px;
+            height: 40px;
+            border-radius: 10px 10px 0px 0px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            color: white;
+            justify-content:space-around;
+        }
+        .Corpo{
+            display: flex;
+            background-color: #121212;
+            flex-direction: row;
+        }
+        .QuadradoSeparado{
+            padding-top: 5%;
+            width: 100%;
+            height: 100%;
+        }
+        .corpoItemDois{
+            display: flex;
+            flex-direction: column;
+            padding-top: 5%;
+            height: 100%;
+        }
+        .corpoItemDois,h1,h2, h3 {
+            color: white;
+            margin: 10px;
+            margin-right: 60px;
+        }
+        .h1ModifyTwo{
+            font-size: 50px;
+            padding-left: 108px;
+        }
+        .h1Modify{
+            font-size: 50px;
+        }
+        .corpoItemDois h2 {
+            color: white;
+            font-size: 25px;
+        }
+        .corpoItemDois h3 {
+            color: white;
+            font-size: 18px;
+        }
+        .Line{
+            border-top: solid;
+            border-right: solid;
+            height: 100%;
+            padding: 20px;
+        }
+    </style>
+</head>
+<body>
+    <section class="Cabecalho">
+        <div class="itemCabecalhoSelected">
+                <div>
+                    <i class="fa-solid fa-house"></i>
+                    <label>Home</label>
+                </div>
+                <a>X</a>
+        </div>
+        <div class="opcoesCabecalho">
+            <button>
+                +
+            </button>
+            <div>
+
+            </div>
+            <button>
+                V
+            </button>
+        </div>
+    </section>
+    <section class="Corpo">
+            <div class="QuadradoSeparado">
+                <canvas id="Lamp" width="400px" height="400px">
+                        
+                </canvas>
+            </div>
+            <div class="corpoItemDois">
+                <div class="Line">
+                <h1 class="h1Modify">
+                    Full stack 
+                        
+                </h1>
+                <h1 class="h1ModifyTwo">
+                    Web developer
+                </h1>
+                <h2>
+                    Olá, eu sou um desenvolvedor Full Stack.
+                </h2>
+                <h3>
+                    Desenvolvimento:  HTML | CSS | JavaScript ~ JQuery | 
+                    C# .NET | ASP Classic | GitLab | SQL ServerEdition |  
+                    C# ASP.NET MVC 
+                </h3>
+            </div>
+            </div>
+    </section>
+    <script>
+       window.addEventListener('load',function(){
+        console.log("pagina Carregou")
+        var iniciaLinha = new Line()
+        var iniciaLuz = new Luz()
+        iniciaLinha.Load(document.getElementById('Lamp'))
+        iniciaLuz.Load(document.getElementById('Lamp'))
+        var iniciaPrograma = new Program().Inicia(iniciaLinha,iniciaLuz)
+       })
+
+       class Program {
+            Inicia(linha,Luz){
+                linha.draw()
+                Luz.draw()
+                Luz.update()
+               setTimeout(() => {
+                this.Inicia()
+               }, 60);
+            }
+       }
+       class Line{
+                canvas = null
+                context = null
+                posicao = {
+                    x:300,
+                    y:300
+                }
+                tamanho = {
+                    largura:0,
+                    altura: 80,
+                }
+                color = 'white'
+                
+
+            Load(canvas){
+               this.canvas = canvas;
+               this.context = this.canvas.getContext('2d')
+               
+            }
+            draw(){
+                if(this.context){
+                    
+                    this.context.beginPath()
+                    this.context.moveTo(this.posicao.x, this.tamanho.altura)
+                    this.context.lineTo(this.posicao.y,this.tamanho.largura)
+                    this.context.lineWidth = 5;
+                    this.context.strokeStyle = this.color;
+                    this.context.stroke();
+                }
+                
+            }
+            update(){
+                    
+            }
+       }
+       class Luz{
+        canvas = null
+                context = null
+                color = 'white'
+                 vertex1 = { x: 300, y: 120 };
+                 vertex2 = { x: 200, y: 240 };
+                 vertex3 = { x: 400, y: 240 };
+
+            Load(canvas){
+               this.canvas = canvas;
+               this.context = this.canvas.getContext('2d')
+               
+            }
+            draw(){
+                if(this.context){
+                    var gradient = this.context.createLinearGradient(this.vertex1.x, this.vertex1.y, 300, this.vertex3.y);
+                    gradient.addColorStop(1, 'rgba(217, 217, 217, 0)');
+                    gradient.addColorStop(0, 'rgba(217, 217, 217, 0.31)');
+                    this.context.beginPath()
+                    this.context.moveTo(this.vertex1.x, this.vertex1.y)
+                    this.context.lineTo(this.vertex2.x, this.vertex2.y);
+                    this.context.lineTo(this.vertex3.x, this.vertex3.y);
+                    this.context.closePath();
+                    this.context.fillStyle = gradient;
+                    this.context.fill();
+                }
+                
+            }
+            update(){
+                    
+            }
+       }
+    </script>
+</body>
+</html>
