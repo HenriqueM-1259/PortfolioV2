@@ -5,11 +5,15 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
     <title>Portfolio 2023</title>
     <style>
         *{
            padding: 0;
            margin: 0;
+           font-family: 'Montserrat', sans-serif;
         }
         body{
             background-color: #121212;
@@ -21,12 +25,22 @@
                 display: flex;
                 flex-direction: row;
         }
+        .opcoesCabecalho{
+            display: flex;
+        }
+        .opcoesCabecalho i{
+            padding-top: 22px;
+            padding-left: 10px;
+            background: none;
+            border: none;
+            color: white;
+        }
         .itemCabecalhoSelected{
             margin-top: 10px;
             margin-left: 10px;
             margin-right: 10px;
             background-color: #121212;
-            width: 150px;
+            width: 200px;
             height: 40px;
             border-radius: 10px 10px 0px 0px;
             display: flex;
@@ -34,6 +48,9 @@
             align-items: center;
             color: white;
             justify-content:space-around;
+        }
+        .itemCabecalhoSelected label {
+            padding-left: 10px;
         }
         .Corpo{
             display: flex;
@@ -45,6 +62,7 @@
             width: 100%;
             height: 100%;
         }
+        
         .corpoItemDois{
             display: flex;
             flex-direction: column;
@@ -57,11 +75,11 @@
             margin-right: 60px;
         }
         .h1ModifyTwo{
-            font-size: 50px;
-            padding-left: 108px;
+            font-size: 40px;
+            padding-left: 100px;
         }
         .h1Modify{
-            font-size: 50px;
+            font-size: 40px;
         }
         .corpoItemDois h2 {
             color: white;
@@ -86,23 +104,18 @@
                     <i class="fa-solid fa-house"></i>
                     <label>Home</label>
                 </div>
-                <a>X</a>
+                <i class="fa-solid fa-xmark"></i>
         </div>
         <div class="opcoesCabecalho">
-            <button>
-                +
-            </button>
-            <div>
+            <i class="fa-solid fa-plus"></i>
+           
 
             </div>
-            <button>
-                V
-            </button>
-        </div>
+           
     </section>
     <section class="Corpo">
             <div class="QuadradoSeparado">
-                <canvas id="Lamp" width="500px" height="400px">
+                <canvas id="Canvas" width="500px" height="400px">
                         
                 </canvas>
             </div>
@@ -128,145 +141,137 @@
     </section>
     <script>
        window.addEventListener('load',function(){
-        console.log("pagina Carregou")
-        
-        var iniciaLinha = new Line()
-        var iniciaLuz = new Luz()
-        var renderer = new ImageRenderer("Lamp", "./IconJs.png");
-        iniciaLinha.Load(document.getElementById('Lamp'))
-        iniciaLuz.Load(document.getElementById('Lamp'))
-        
-        setInterval(() => {
+            var service = new Service(document.getElementById('Canvas'));
+            function LoopService() {
+                service.LimpaTela()
+                service.Draw()
+                service.Update()
+                requestAnimationFrame(LoopService);
+            }
 
-            var iniciaPrograma = new Program().Inicia(document.getElementById('Lamp'),iniciaLinha,iniciaLuz,renderer)
-               }, 60);
-        
+            LoopService();
        })
 
-       class Program {
-            Inicia(canva,linha,Luz,renderer){
-                
-                var context = canva.getContext('2d')
-                context.clearRect(0,0,500,400);
-                linha.draw()
-                
-                Luz.draw()
-                Luz.update()
-                renderer.SomeIcon(Luz.apaga);
-                
-                
-            }
-       }
-       class Line{
-                canvas = null
-                context = null
-                posicao = {
-                    x:300,
-                    y:300
-                }
-                tamanho = {
-                    largura:0,
-                    altura: 80,
-                }
-                color = 'white'
-                
+       class Service{
+        constructor(canvas){
+           this.context = canvas.getContext('2d')
+           this.linha = new LineLuz(this.context)
+           this.luz = new Luz(this.context)
+        }
+        LimpaTela(){
+           this.context.clearRect(0,0,500,400)
+        }
+        Draw(){
+            this.linha.Draw()
+            this.luz.Draw()
+        }
 
-            Load(canvas){
-               this.canvas = canvas;
-               this.context = this.canvas.getContext('2d')
-               
+        Update(){
+            this.linha.Update()
+            this.luz.Update()
+        }
+        }
+        class LineLuz{
+          constructor(context){
+            this.context = context
             }
-            draw(){
-                if(this.context){
-                    
-                    this.context.beginPath()
-                    this.context.moveTo(this.posicao.x, this.tamanho.altura)
-                    this.context.lineTo(this.posicao.y,this.tamanho.largura)
-                    this.context.lineWidth = 5;
-                    this.context.strokeStyle = this.color;
-                    this.context.stroke();
-                }
-                
-            }
-            update(){
-                    
-            }
-       }
-       class Luz{
-        
-                canvas = null
-                context = null
-                color = '#121212'
-                 vertex1 = { x: 320, y: 130 };
-                 vertex2 = { x: 0, y: 540 };
-                 vertex3 = { x: 600, y: 540 };
-                 vertex4 = { x: 280, y: 130 };
-                apaga = false;
-            Load(canvas){
-               this.canvas = canvas;
-               this.context = this.canvas.getContext('2d')
-               this.addCor()
-            }
-            draw(){
-                if(this.context){
-                    
-                    this.context.beginPath()
-                    this.context.moveTo(this.vertex1.x, this.vertex1.y)
-                    this.context.lineTo(this.vertex4.x, this.vertex4.y);
-                    this.context.lineTo(this.vertex2.x, this.vertex2.y);
-                    this.context.lineTo(this.vertex3.x, this.vertex3.y);
-                    this.context.closePath();
-                    this.context.fillStyle = this.color;
-                    this.context.fill();
-                }
-                
-            }
-            update(){
-                this.apagaLuz()
-            }
-            addCor(){
-                this.apaga = false;
-                    this.color = this.context.createLinearGradient(0,0,0,300);
-                    this.color.addColorStop(1, 'rgba(217, 217, 217, 0)');
-                    this.color.addColorStop(0, 'rgba(217, 217, 217, 0.31)');
-            }
-            apagaLuz(){
-                var numeroAleatorio = Math.floor(Math.random() * 20);
-                    if(numeroAleatorio == 10){
-                        this.apaga = true;
-                        this.color = '#121212'
-                    }else{
-                      this.addCor()  
-                    }
-            }
-            moveto(){
-        
-            }
-       }
-       class ImageRenderer {
-      constructor(canvasId, imagePath) {
-        this.canvas = document.getElementById(canvasId);
-        this.ctx = this.canvas.getContext("2d");
-        this.image = new Image();
-        this.image.src = imagePath;
-        this.image.height = "100px"
-        this.image.onload = this.render.bind(this);
-      }
 
-      render() {
-        this.ctx.drawImage(this.image, 275, 200);
-      }
-      SomeIcon(some){
-                if(some){
-                    
-                    this.image.src = "" 
-                }else{
-                    this.image.src = "./IconJs.png" 
-                }
+            posicaoInit = {
+                x:300,
+                y:0,
             }
-    }
+          
+            posicaoEnd = {
+                x:300,
+                y:50
+            }
 
-    
+            direcao = 0.1
+            color = "white"
+
+           Draw(){
+
+            this.context.beginPath();
+            this.context.moveTo(this.posicaoInit.x, this.posicaoInit.y);
+            
+            this.context.lineTo(this.posicaoEnd.x, this.posicaoEnd.y);
+            this.context.lineWidth = 2;
+            this.context.strokeStyle = this.color;
+            this.context.stroke();
+
+            }
+
+           Update(){
+
+           }
+        }
+
+        class Luz{
+             constructor(context){
+                this.context = context
+                this.IniciaLuz = this.CarregarLuz();
+            }
+
+        vertices = {
+
+            verticeOne:{
+                x:320,
+                y:100
+            },
+            verticeTwo:{
+                x:200,
+                y:300
+            },
+            verticethree:{
+                x:400,
+                y:300
+            },
+            verticefour:{
+                x:280,
+                y:100
+            }
+            }
+            Gradiente = ""
+            
+            CarregarLuz(){
+                debugger
+                this.Gradiente = this.context.createLinearGradient(this.vertices.verticeOne.x,this.vertices.verticeOne.y,this.vertices.verticeTwo.x,this.vertices.verticethree.y);
+                this.Gradiente.addColorStop(0, 'rgba(217, 217, 217, 0.31)');
+                this.Gradiente.addColorStop(1, 'rgba(217, 217, 217, 0)');
+            }
+            Draw(){
+            this.context.beginPath();
+            this.context.moveTo(this.vertices.verticeOne.x, this.vertices.verticeOne.y);
+
+            // Desenha linhas até os vértices 2 e 3
+            this.context.lineTo(this.vertices.verticefour.x, this.vertices.verticefour.y);
+            this.context.lineTo(this.vertices.verticeTwo.x, this.vertices.verticeTwo.y);
+            this.context.lineTo(this.vertices.verticethree.x, this.vertices.verticethree.y);
+
+            // Fecha o caminho, conectando o vértice 3 com o vértice 1
+            this.context.closePath();
+
+            // Define o estilo de preenchimento como o gradiente
+            this.context.fillStyle = this.Gradiente;
+
+            // Preenche o triângulo com o gradiente
+            this.context.fill();
+
+            }
+            Update(){
+                this.ApagaLuz()
+            }
+
+            ApagaLuz(){
+                    const randomNumber = Math.floor(Math.random() * 50)
+                    if(randomNumber == 25){
+                        debugger
+                        this.Gradiente = "#121212"
+                    }else if(randomNumber == 0){
+                        this.CarregarLuz();
+                    }   
+            }
+        }
     </script>
 </body>
 </html>
