@@ -6,8 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800&display=swap" rel="stylesheet">
     <title>Portfolio 2023</title>
     <style>
         *{
@@ -47,7 +47,7 @@
             flex-direction: row;
             align-items: center;
             color: white;
-            justify-content:space-around;
+        
         }
         .itemCabecalhoSelected label {
             padding-left: 10px;
@@ -88,32 +88,21 @@
         .corpoItemDois h3 {
             color: white;
             font-size: 18px;
-        }
-        .Line{
-            border-top: solid;
-            border-right: solid;
-            height: 200px;
-            
-            border-width: 4px;
-            padding: 20px;
+        }       
+        .ajustecabecalho{
+            padding-left: 20px;
         }
     </style>
 </head>
 <body>
     <section class="Cabecalho">
         <div class="itemCabecalhoSelected">
-                <div>
+                <div class="ajustecabecalho">
                     <i class="fa-solid fa-house"></i>
                     <label>Home</label>
                 </div>
-                <i class="fa-solid fa-xmark"></i>
         </div>
-        <div class="opcoesCabecalho">
-            <i onclick="AdicionarAba();" class="fa-solid fa-plus"></i>
-           
-
-            </div>
-           
+        
     </section>
     <section class="Corpo">
             <div class="QuadradoSeparado">
@@ -122,7 +111,7 @@
                 </canvas>
             </div>
             <div class="corpoItemDois">
-                <div class="Line">
+                
                 <h1 class="h1Modify">
                     Full stack 
                         
@@ -139,30 +128,16 @@
                     C# ASP.NET MVC 
                 </h3>
             </div>
-            </div>
+            
     </section>
     <script>
-         var PaginaNumero = 0
-        function AdicionarAba(){debugger
-                cabecalho = document.querySelector('.Cabecalho')
-                PaginaNumero++;
-                if(PaginaNumero == 1){
-                    var addbuton = cabecalho.childNodes[3].innerHTML   
-                    cabecalho.childNodes[3].innerHTML = "" 
-                    
-                    cabecalho.innerHTML = cabecalho.innerHTML +"<div class='itemCabecalhoSelected'><div><i class='fa-solid fa-house'></i><label>Sobre</label></div><i class='fa-solid fa-xmark'></i></div> <div class='opcoesCabecalho'>"+addbuton+"</div>" 
-                    
-                }else if(PaginaNumero == 2){
 
-                }else if(PaginaNumero == 3){
-
-                }                      
-            }
        window.addEventListener('load',function(){
            
             var service = new Service(document.getElementById('Canvas'));
             
             function LoopService() {
+                
                 service.LimpaTela()
                 service.Draw()
                 service.Update()
